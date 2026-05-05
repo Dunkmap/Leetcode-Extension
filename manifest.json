@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "SQL Master — LeetCode AI Companion",
+  "version": "1.0.0",
+  "description": "Auto-capture LeetCode SQL problems, detect SQL clauses, and generate AI-powered solution write-ups with one click.",
+  "permissions": ["storage", "activeTab", "scripting"],
+  "host_permissions": [
+    "https://api.groq.com/*",
+    "https://leetcode.com/problems/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.leetcode.com/*"],
+      "js": ["clause_taxonomy.js", "leetcode_content.js"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["*://*.leetcode.com/*"],
+      "js": ["leetcode_main_world.js"],
+      "run_at": "document_idle",
+      "world": "MAIN"
+    }
+  ]
+}

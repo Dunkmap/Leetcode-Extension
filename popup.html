@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQL Master — LeetCode</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background-color: #fcf6f0;
+      background-image:
+        linear-gradient(#eae1d7 1.5px, transparent 1.5px),
+        linear-gradient(90deg, #eae1d7 1.5px, transparent 1.5px);
+      background-size: 25px 25px;
+      font-family: 'JetBrains Mono', monospace;
+      color: #32475b;
+      min-width: 380px;
+      max-width: 420px;
+    }
+    .popup { padding: 24px; }
+
+    /* Header */
+    .header { text-align: center; margin-bottom: 20px; }
+    .header-icon { font-size: 2.2rem; margin-bottom: 6px; }
+    .title { color: #b86a7c; font-weight: 800; font-size: 1.3rem; letter-spacing: -0.5px; }
+    .subtitle { font-size: 0.68rem; font-weight: 700; color: #718096; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+
+    /* Stats Row */
+    .stats-row { display: flex; gap: 10px; margin-bottom: 20px; }
+    .stat-card {
+      flex: 1; text-align: center; background: #fff; border: 1.5px solid #eae1d7;
+      border-radius: 14px; padding: 14px 8px;
+    }
+    .stat-value { font-size: 1.4rem; font-weight: 900; color: #b86a7c; }
+    .stat-label { font-size: 0.6rem; font-weight: 700; color: #718096; text-transform: uppercase; margin-top: 2px; }
+
+    /* Cards */
+    .section-card {
+      background: #fff; border: 1.5px solid #eae1d7; border-radius: 16px;
+      padding: 18px; margin-bottom: 14px;
+    }
+    .section-title {
+      font-size: 0.68rem; font-weight: 800; color: #718096;
+      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;
+    }
+
+    /* API Key Input */
+    .api-row { display: flex; gap: 8px; align-items: center; }
+    .api-input {
+      flex: 1; padding: 10px 14px; border: 1.5px solid #eae1d7; border-radius: 10px;
+      font-family: inherit; font-size: 0.78rem; font-weight: 600; color: #32475b;
+      background: #f8f4ef; outline: none;
+    }
+    .api-input:focus { border-color: #b86a7c; }
+    .api-input::placeholder { color: #b8c4d0; }
+
+    /* Get API Key Link */
+    .get-key-btn {
+      display: inline-block; margin-top: 10px; padding: 7px 16px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: #fff; border-radius: 8px; font-size: 0.68rem; font-weight: 800;
+      text-decoration: none; letter-spacing: 0.3px;
+      transition: all 0.2s ease; box-shadow: 0 3px 10px rgba(102,126,234,0.25);
+    }
+    .get-key-btn:hover {
+      transform: translateY(-1px); box-shadow: 0 5px 16px rgba(102,126,234,0.35);
+    }
+    .get-key-btn:active { transform: translateY(1px); }
+
+    /* Buttons */
+    .btn {
+      padding: 10px 18px; border: none; border-radius: 10px; font-family: inherit;
+      font-weight: 800; font-size: 0.78rem; cursor: pointer; transition: all 0.2s;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .btn-primary {
+      background: #c0ebd0; color: #437653; border: 1.5px solid #9dcdae;
+      box-shadow: 0 3px 0 #9dcdae;
+    }
+    .btn-primary:hover { transform: translateY(-1px); }
+    .btn-primary:active { transform: translateY(2px); box-shadow: 0 1px 0 #9dcdae; }
+    .btn-accent {
+      background: #fbe6dd; color: #b86a7c; border: 1.5px solid #ebcdc0;
+      box-shadow: 0 3px 0 #ebcdc0;
+    }
+    .btn-danger {
+      background: #fef2f2; color: #991b1b; border: 1.5px solid #fecaca;
+      font-size: 0.7rem; padding: 8px 14px;
+    }
+    .btn-full { width: 100%; }
+
+    /* Questions List */
+    .q-list { max-height: 320px; overflow-y: auto; }
+    .q-wrapper { border-bottom: 1px solid #f2e7de; }
+    .q-wrapper:last-child { border-bottom: none; }
+    .q-item {
+      padding: 10px 12px;
+      display: flex; align-items: center; gap: 10px; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .q-item:hover { background: #fbe6dd; }
+    .q-title { font-size: 0.78rem; font-weight: 700; color: #32475b; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .q-cats { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+    .q-cat {
+      font-size: 0.55rem; padding: 2px 7px; background: rgba(184,106,124,0.1);
+      color: #b86a7c; border-radius: 8px; font-weight: 700;
+    }
+    .q-empty { text-align: center; padding: 24px; color: #b8c4d0; font-size: 0.78rem; font-weight: 600; }
+
+    /* Solution Badge */
+    .q-solved-badge {
+      font-size: 0.55rem; padding: 3px 9px; background: #dcfce7;
+      color: #15803d; border-radius: 8px; font-weight: 800; cursor: pointer;
+      transition: all 0.15s; white-space: nowrap; border: 1px solid #bbf7d0;
+      flex-shrink: 0;
+    }
+    .q-solved-badge:hover { background: #bbf7d0; transform: scale(1.05); }
+    .q-no-sol {
+      font-size: 0.5rem; padding: 3px 8px; background: #f1f5f9;
+      color: #94a3b8; border-radius: 8px; font-weight: 700; white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* Solution Panel (Collapsible) */
+    .q-solution-panel {
+      display: none; padding: 14px 16px; background: #faf7f3;
+      border-top: 1.5px dashed #eae1d7;
+    }
+    .q-solution-panel.show { display: block; }
+    .sol-block { margin-bottom: 12px; }
+    .sol-block:last-child { margin-bottom: 0; }
+    .sol-label {
+      font-weight: 800; color: #b86a7c; font-size: 0.6rem;
+      text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px;
+    }
+    .sol-text {
+      color: #32475b; font-size: 0.72rem; line-height: 1.55;
+      white-space: pre-wrap; word-break: break-word;
+    }
+    .sol-complexity-row { display: flex; gap: 14px; }
+    .sol-complex-val {
+      font-size: 0.72rem; font-weight: 700; color: #32475b;
+      background: #fff; padding: 4px 10px; border-radius: 6px;
+      border: 1px solid #eae1d7; display: inline-block; margin-top: 2px;
+    }
+    .sol-code {
+      font-size: 0.68rem; background: #1e293b; color: #e2e8f0;
+      padding: 12px 14px; border-radius: 10px; overflow-x: auto;
+      white-space: pre-wrap; word-break: break-all; line-height: 1.6;
+      margin-top: 4px; max-height: 150px; overflow-y: auto;
+    }
+
+    /* Status */
+    .status {
+      font-size: 0.7rem; font-weight: 700; padding: 6px 12px; border-radius: 8px;
+      text-align: center; margin-top: 8px; display: none;
+    }
+    .status.success { display: block; background: #dcfce7; color: #15803d; }
+    .status.error { display: block; background: #fef2f2; color: #991b1b; }
+
+    /* Footer */
+    .footer {
+      text-align: center; margin-top: 16px; padding-top: 14px;
+      border-top: 1.5px solid #eae1d7;
+    }
+    .footer-text { font-size: 0.6rem; color: #b8c4d0; font-weight: 600; }
+    .footer-link { color: #b86a7c; text-decoration: none; font-weight: 800; }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
+  </style>
+</head>
+<body>
+  <div class="popup">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-icon">⚡</div>
+      <div class="title">SQL MASTER × LEETCODE</div>
+      <div class="subtitle">AI-Powered LeetCode Companion</div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value" id="stat-captured">0</div>
+        <div class="stat-label">Captured</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-solved">0</div>
+        <div class="stat-label">Solved</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-today">0</div>
+        <div class="stat-label">Today</div>
+      </div>
+    </div>
+
+    <!-- API Key -->
+    <div class="section-card">
+      <div class="section-title">🔑 Groq API Key</div>
+      <div class="api-row">
+        <input type="password" class="api-input" id="api-key-input" placeholder="gsk_...">
+        <button class="btn btn-primary" id="save-key-btn">Save</button>
+      </div>
+      <a href="https://console.groq.com/keys" target="_blank" id="get-key-link" class="get-key-btn">
+        🔗 Get Free API Key →
+      </a>
+      <div class="status" id="key-status"></div>
+    </div>
+
+    <!-- Captured Questions -->
+    <div class="section-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <div class="section-title" style="margin-bottom:0;">📸 Captured Questions</div>
+        <button class="btn btn-danger" id="clear-btn" style="font-size:0.6rem;padding:4px 10px;">Clear All</button>
+      </div>
+      <div class="q-list" id="question-list">
+        <div class="q-empty">No questions captured yet.<br>Visit a LeetCode SQL problem to auto-capture.</div>
+      </div>
+    </div>
+
+    <!-- Export -->
+    <div style="display:flex;gap:10px;">
+      <button class="btn btn-accent btn-full" id="export-json-btn">📋 Export JSON</button>
+      <button class="btn btn-primary btn-full" id="export-pdf-btn">📄 Export PDF</button>
+    </div>
+    <div class="status" id="export-status"></div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-text">
+        v1.0.0 • <a class="footer-link" href="https://github.com/Dunkmap/praql" target="_blank">GitHub</a>
+        • Press <strong>ALT+Q</strong> to force-capture
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
