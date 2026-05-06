@@ -28,6 +28,37 @@
     .title { color: #b86a7c; font-weight: 800; font-size: 1.3rem; letter-spacing: -0.5px; }
     .subtitle { font-size: 0.68rem; font-weight: 700; color: #718096; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
 
+    /* Credit Counter */
+    .credit-bar {
+      display: flex; align-items: center; justify-content: center; gap: 14px;
+      margin-top: 10px; margin-bottom: 6px;
+    }
+    .credit-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: #fff; padding: 6px 14px; border-radius: 20px;
+      font-size: 0.72rem; font-weight: 800; letter-spacing: 0.3px;
+      box-shadow: 0 3px 12px rgba(102,126,234,0.3);
+      transition: all 0.3s ease;
+    }
+    .credit-badge:hover { transform: scale(1.05); box-shadow: 0 5px 18px rgba(102,126,234,0.4); }
+    .credit-badge.low {
+      background: linear-gradient(135deg, #e53e3e, #c53030);
+      box-shadow: 0 3px 12px rgba(229,62,62,0.3);
+      animation: pulse-low 1.5s ease-in-out infinite;
+    }
+    .credit-count { font-size: 0.85rem; font-weight: 900; }
+    .streak-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: #fff3e0; color: #e65100; padding: 5px 12px;
+      border-radius: 20px; font-size: 0.65rem; font-weight: 800;
+      border: 1.5px solid #ffe0b2;
+    }
+    @keyframes pulse-low {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+    }
+
     /* Stats Row */
     .stats-row { display: flex; gap: 10px; margin-bottom: 20px; }
     .stat-card {
@@ -161,6 +192,81 @@
     .status.success { display: block; background: #dcfce7; color: #15803d; }
     .status.error { display: block; background: #fef2f2; color: #991b1b; }
 
+    /* AI Autofill Button */
+    .ai-autofill-btn {
+      width: 100%; padding: 12px 18px; border: 1.5px solid #ebcdc0; border-radius: 12px;
+      font-family: inherit; font-weight: 800; font-size: 0.82rem;
+      cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px;
+      background: #fbe6dd; color: #b86a7c;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      box-shadow: 0 3px 0 #ebcdc0;
+      transition: all 0.2s ease; margin-bottom: 14px;
+    }
+    .ai-autofill-btn:hover {
+      transform: translateY(-1px); box-shadow: 0 4px 0 #ebcdc0;
+    }
+    .ai-autofill-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #ebcdc0; }
+    .ai-autofill-btn .btn-icon { font-size: 1.1rem; }
+    .ai-autofill-btn .credit-cost {
+      font-size: 0.6rem; font-weight: 700;
+      background: rgba(184,106,124,0.15); padding: 2px 8px; border-radius: 8px;
+      color: #b86a7c;
+    }
+
+    /* Modal Overlay */
+    .modal-overlay {
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5); z-index: 999;
+      align-items: center; justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+    .modal-overlay.show { display: flex; }
+    .modal-box {
+      background: #fff; border-radius: 18px; padding: 24px;
+      max-width: 360px; width: 90%; max-height: 85vh; overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      animation: modalSlideIn 0.3s ease;
+    }
+    @keyframes modalSlideIn {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .modal-header {
+      text-align: center; margin-bottom: 16px; padding-bottom: 14px;
+      border-bottom: 1.5px solid #eae1d7;
+    }
+    .modal-header .modal-icon { font-size: 2rem; margin-bottom: 6px; }
+    .modal-header h3 {
+      font-size: 1rem; font-weight: 800; color: #32475b; margin-bottom: 4px;
+    }
+    .modal-header p { font-size: 0.68rem; color: #718096; font-weight: 600; }
+    .modal-step {
+      display: flex; gap: 10px; align-items: flex-start;
+      padding: 10px 0; border-bottom: 1px solid #f2e7de;
+    }
+    .modal-step:last-child { border-bottom: none; }
+    .step-num {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: #fff; width: 24px; height: 24px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.65rem; font-weight: 900; flex-shrink: 0;
+    }
+    .step-text { font-size: 0.72rem; color: #32475b; font-weight: 600; line-height: 1.5; }
+    .step-text strong { color: #b86a7c; }
+    .modal-tip {
+      background: #fef3c7; border: 1.5px solid #fde68a; border-radius: 10px;
+      padding: 10px 14px; margin-top: 14px;
+      font-size: 0.65rem; font-weight: 700; color: #92400e;
+    }
+    .modal-close-btn {
+      width: 100%; padding: 10px; border: none; border-radius: 10px;
+      font-family: inherit; font-weight: 800; font-size: 0.75rem;
+      cursor: pointer; margin-top: 16px;
+      background: #f8f4ef; color: #718096; border: 1.5px solid #eae1d7;
+      transition: all 0.2s;
+    }
+    .modal-close-btn:hover { background: #eae1d7; }
+
     /* Footer */
     .footer {
       text-align: center; margin-top: 16px; padding-top: 14px;
@@ -180,6 +286,15 @@
       <div class="header-icon">⚡</div>
       <div class="title">SQL MASTER × LEETCODE</div>
       <div class="subtitle">AI-Powered LeetCode Companion</div>
+      <!-- Credit Counter -->
+      <div class="credit-bar">
+        <div class="credit-badge" id="credit-badge" title="AI Autofill Credits">
+          💎 <span class="credit-count" id="credit-count">0</span> credits
+        </div>
+        <div class="streak-badge" id="streak-badge" title="Daily login streak">
+          🔥 <span id="streak-count">0</span> day streak
+        </div>
+      </div>
     </div>
 
     <!-- Stats -->
@@ -197,6 +312,13 @@
         <div class="stat-label">Today</div>
       </div>
     </div>
+
+    <!-- AI Autofill Button -->
+    <button class="ai-autofill-btn" id="ai-autofill-info-btn">
+      <span class="btn-icon">🤖</span>
+      AI Autofill — How to Use
+      <span class="credit-cost">1 💎 per use</span>
+    </button>
 
     <!-- API Key -->
     <div class="section-card">
@@ -235,6 +357,48 @@
         v1.0.0 • <a class="footer-link" href="https://github.com/Dunkmap/praql" target="_blank">GitHub</a>
         • Press <strong>ALT+Q</strong> to force-capture
       </div>
+    </div>
+  </div>
+
+  <!-- AI Autofill Info Modal -->
+  <div class="modal-overlay" id="ai-info-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-icon">🤖</div>
+        <h3>How AI Autofill Works</h3>
+        <p>Your secret weapon for LeetCode problems</p>
+      </div>
+
+      <div class="modal-step">
+        <div class="step-num">1</div>
+        <div class="step-text">Go to any <strong>LeetCode problem page</strong>. The extension will automatically capture the problem.</div>
+      </div>
+
+      <div class="modal-step">
+        <div class="step-num">2</div>
+        <div class="step-text">Look for the <strong>🤖 AI Autofill</strong> button that appears on the LeetCode page (near the code editor area).</div>
+      </div>
+
+      <div class="modal-step">
+        <div class="step-num">3</div>
+        <div class="step-text">Click the button! The AI will generate the <strong>intuition, approach, and complete solution code</strong> for you.</div>
+      </div>
+
+      <div class="modal-step">
+        <div class="step-num">4</div>
+        <div class="step-text">Each AI Autofill uses <strong>1 credit 💎</strong>. You get <strong>5 free credits</strong> on install and earn <strong>1 credit/day</strong> by maintaining your login streak.</div>
+      </div>
+
+      <div class="modal-step">
+        <div class="step-num">5</div>
+        <div class="step-text">Come back to this popup to <strong>view solutions, export to PDF</strong>, or review your captured problem library anytime.</div>
+      </div>
+
+      <div class="modal-tip">
+        💡 <strong>Pro Tip:</strong> Open the popup daily to keep your 🔥 streak alive and earn free credits. Random surprise bonuses can drop too!
+      </div>
+
+      <button class="modal-close-btn" id="close-ai-modal">Got It!</button>
     </div>
   </div>
 

@@ -1,0 +1,127 @@
+MY LEETCODE EXTENSION — CREDIT SYSTEM MONETIZATION PLAN
+Author: Manju | Date: May 2026 | Confidential
+=========================================================
+
+
+1. WHAT I HAVE BUILT
+---------------------
+- A Chrome extension called SQL Master × LeetCode.
+- It auto-captures any LeetCode problem the user visits.
+- It stores all captured problems in a personal library.
+- It has an AI Autofill button that generates full solutions using Groq API (intuition, approach, code, complexity).
+- Users can export their study data as JSON or PDF.
+- The AI Autofill feature is the most valuable part. This is what I will monetize.
+
+
+2. MY MONETIZATION MODEL — CREDIT SYSTEM
+------------------------------------------
+- Every AI Autofill costs 1 credit.
+- When credits run out, the AI Autofill button stops working.
+- Users must earn or buy more credits to continue.
+
+HOW USERS GET FREE CREDITS:
+  - First install (welcome gift) → 5 free credits (one-time)
+  - Daily login streak (open popup daily) → 1 credit per day (streak must not break)
+  - Random surprise bonus → 2 bonus credits on random days (slot machine effect)
+  - Capturing problems → Free (keeps them using the extension even with 0 credits)
+
+HOW USERS BUY CREDITS:
+  - Starter Pack   → 30 credits   → $2.99   ($0.10 per credit)
+  - Popular Pack   → 100 credits  → $6.99   ($0.07 per credit) ← BEST VALUE label
+  - Unlimited PRO  → Unlimited    → $14.99/month
+
+- I will label the 100-credit pack as "BEST VALUE" with a star icon.
+- The $2.99 pack makes $6.99 look like a bargain (anchoring effect).
+- Most users will buy the middle option. That is what I want.
+
+
+3. WHY THIS WILL MAKE USERS ADDICTED
+--------------------------------------
+
+HOOK 1 — THE FREE TASTE:
+  - User installs extension → gets 5 free credits instantly.
+  - They use AI Autofill 5 times on Day 1 → feels amazing.
+  - Credits hit 0. They are hooked but have nothing left.
+
+HOOK 2 — THE WITHDRAWAL:
+  - Day 2: They click AI Autofill → message appears: "You need 1 credit. You have 0."
+  - They are stuck on a hard problem. The answer is one click away but they cannot access it.
+  - This pain drives purchases.
+
+HOOK 3 — THE DAILY STREAK:
+  - Users get 1 free credit/day ONLY if they open the popup every day without breaking their streak.
+  - If they miss a day, streak resets to 0. They lose the habit bonus.
+  - This makes them open the extension every single day (daily habit).
+  - 1 credit/day = just enough to taste the feature but not enough for heavy use.
+
+HOOK 4 — THE SURPRISE BONUS:
+  - On random days, users get 2 bonus credits with a celebration animation.
+  - This is the slot machine effect — unpredictable rewards are more addictive than predictable ones.
+  - Users open the extension daily hoping for a surprise. Even when they don't get one, the habit is reinforced.
+
+HOOK 5 — SUNK COST:
+  - Over weeks, users build a library of 50-200+ problems with AI solutions.
+  - All their study data lives inside my extension. They cannot switch without losing everything.
+  - They stay because they are invested.
+
+HOOK 6 — URGENCY AND FLASH SALES:
+  - Occasional flash sales inside the extension: "50 credits for $1.99 — 24 hours only!"
+  - Users who were on the fence buy impulsively because the deal feels too good to miss.
+
+
+4. THE COMPLETE USER JOURNEY
+------------------------------
+  Day 1:    Install → Get 5 free credits → Use all 5 → Hooked → Credits at 0.
+  Day 2-7:  Return daily for streak credits → Get 1/day → Not enough → See "Buy Credits" daily.
+  Day 8-14: Library growing → Feels invested → Flash sale appears → Buys Starter Pack ($2.99).
+  Day 15-30: Uses up 30 credits → Interview prep → Needs 10/day → Buys Popular Pack ($6.99).
+  Month 2+: Realizes they spend $7/month anyway → Switches to Unlimited ($14.99/month) → Recurring revenue for me.
+
+
+5. MY REVENUE PROJECTIONS
+---------------------------
+
+CONSERVATIVE (1,000 active users, 3% conversion):
+  - 15 users buy Starter Pack ($2.99)   → $44.85/month
+  - 10 users buy Popular Pack ($6.99)   → $69.90/month
+  - 5 users go Unlimited ($14.99/mo)    → $74.95/month
+  - TOTAL: $189.70/month (~Rs.15,900/month)
+
+GROWTH (10,000 active users, 4% conversion):
+  - 150 users buy Starter Pack ($2.99)  → $448.50/month
+  - 150 users buy Popular Pack ($6.99)  → $1,048.50/month
+  - 100 users go Unlimited ($14.99/mo)  → $1,499.00/month
+  - TOTAL: $2,996/month (~Rs.2,51,000/month)
+
+- My only cost is the Groq API (currently free or under $50/month at scale).
+- Almost all revenue is pure profit.
+
+
+6. WHAT I NEED TO BUILD
+-------------------------
+  1. Credit Counter — Store user's credit balance in chrome.storage.local. Show it in the popup header.
+  2. Daily Streak Tracker — Record last open date. Award 1 credit if opened consecutively. Reset if missed.
+  3. Paywall Modal — When 0 credits and user clicks AI Autofill, show "Buy Credits" modal instead of solution.
+  4. Credit Store UI — Section in popup showing the 3 packs with prices and "Buy Now" buttons.
+  5. Payment Integration — Use Stripe Checkout Links or Lemon Squeezy (hosted page, no custom checkout needed).
+  6. License Verification — Simple Firebase/Supabase backend to track purchases and update credit balance.
+
+
+7. MY ACTION PLAN
+-------------------
+  Phase 1 (This week):    Build credit counter, streak tracker, and paywall modal. Costs nothing.
+  Phase 2 (Next week):    Set up Stripe account. Create payment links for 3 packs. Connect to Firebase.
+  Phase 3 (Week 3):       Publish on Chrome Web Store. Share on Reddit, Twitter/X, LinkedIn.
+  Phase 4 (Month 2):      Add flash sales and surprise bonuses. Monitor which pack sells best. Adjust pricing.
+  Phase 5 (Ongoing):      Content marketing — blog posts, YouTube videos to drive organic traffic.
+
+
+BOTTOM LINE
+-----------
+I am not selling software. I am selling relief from frustration.
+Every developer stuck on a hard LeetCode problem at 2 AM will pay $2.99 for the answer.
+My job is to make sure they experience that frustration inside my extension first,
+so the solution is always one click (and one purchase) away.
+
+
+(c) 2026 SQL Master x LeetCode Extension. All rights reserved.

@@ -3,6 +3,7 @@
  * Manages API key, captured questions list with solutions, and export (JSON + PDF).
  */
 document.addEventListener('DOMContentLoaded', () => {
+  initCreditSystem();
   loadApiKey();
   loadCapturedQuestions();
 
@@ -10,6 +11,17 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('clear-btn').addEventListener('click', clearQuestions);
   document.getElementById('export-json-btn').addEventListener('click', exportJSON);
   document.getElementById('export-pdf-btn').addEventListener('click', exportPDF);
+
+  // AI Autofill info modal
+  document.getElementById('ai-autofill-info-btn').addEventListener('click', () => {
+    document.getElementById('ai-info-modal').classList.add('show');
+  });
+  document.getElementById('close-ai-modal').addEventListener('click', () => {
+    document.getElementById('ai-info-modal').classList.remove('show');
+  });
+  document.getElementById('ai-info-modal').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) e.currentTarget.classList.remove('show');
+  });
 });
 
 /* ===== API Key ===== */
@@ -314,3 +326,112 @@ function showStatus(id, message, type) {
   el.className = 'status ' + type;
   setTimeout(() => { el.className = 'status'; }, 4000);
 }
+
+/* ===== Credit System ===== */
+const CREDIT_DEFAULTS = {
+  credits: 0,
+  streak: 0,
+  lastLoginDate: null,
+  isFirstInstall: true
+};
+
+function initCreditSystem() {
+  chrome.storage.local.get(CREDIT_DEFAULTS, (data) => {
+    // First-time install — give 5 welcome credits
+    if (data.isFirstInstall) {
+      data.credits = 5;
+      data.isFirstInstall = false;
+      chrome.storage.local.set({ credits: 5, isFirstInstall: false });
+    }
+
+    // Daily streak logic
+    const today = new Date().toISOString().slice(0, 10);
+    const lastLogin = data.lastLoginDate;
+
+    if (lastLogin !== today) {
+      // Check if yesterday — streak continues
+      const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+
+      if (lastLogin === yesterday) {
+        // Streak continues! Award 1 credit
+        data.streak += 1;
+        data.credits += 1;
+      } else if (lastLogin === null) {
+        // Brand new user, first open
+        data.streak = 1;
+      } else {
+        // Streak broken — reset to 1
+        data.streak = 1;
+      }
+
+      // Random surprise bonus (20% chance for 2 extra credits)
+      let bonusAwarded = false;
+      if (Math.random() < 0.2) {
+        data.credits += 2;
+        bonusAwarded = true;
+      }
+
+      // Save updated data
+      chrome.storage.local.set({
+        credits: data.credits,
+        streak: data.streak,
+        lastLoginDate: today
+      }, () => {
+        updateCreditUI(data.credits, data.streak);
+
+        // Show streak notification
+        if (lastLogin === yesterday) {
+          showStatus('key-status', `🔥 Streak day ${data.streak}! +1 credit earned`, 'success');
+        }
+
+        // Show bonus notification after a delay
+        if (bonusAwarded) {
+          setTimeout(() => {
+            showStatus('key-status', '🎉 Surprise! You earned 2 bonus credits!', 'success');
+          }, lastLogin === yesterday ? 2500 : 500);
+        }
+      });
+    } else {
+      // Already logged in today, just update UI
+      updateCreditUI(data.credits, data.streak);
+    }
+  });
+}
+
+function updateCreditUI(credits, streak) {
+  const creditCountEl = document.getElementById('credit-count');
+  const creditBadgeEl = document.getElementById('credit-badge');
+  const streakCountEl = document.getElementById('streak-count');
+
+  if (creditCountEl) creditCountEl.textContent = credits;
+  if (streakCountEl) streakCountEl.textContent = streak;
+
+  // Turn badge red when credits are low
+  if (creditBadgeEl) {
+    if (credits <= 2) {
+      creditBadgeEl.classList.add('low');
+    } else {
+      creditBadgeEl.classList.remove('low');
+    }
+  }
+}
+
+/**
+ * Call this before allowing an AI Autofill.
+ * Returns true if the user has credits, false if they don't.
+ * Deducts 1 credit on success.
+ */
+function useCredit(callback) {
+  chrome.storage.local.get({ credits: 0, streak: 0 }, (data) => {
+    if (data.credits <= 0) {
+      callback(false);
+      return;
+    }
+    const newCredits = data.credits - 1;
+    chrome.storage.local.set({ credits: newCredits }, () => {
+      updateCreditUI(newCredits, data.streak);
+      callback(true);
+    });
+  });
+}
+
